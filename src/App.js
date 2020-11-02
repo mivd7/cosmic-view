@@ -3,14 +3,17 @@ import React, {
   useRef
 } from 'react';
 import * as d3 from 'd3';
-import { Celestial } from 'd3-celestial/celestial.min.js';
+import { Celestial } from 'd3-celestial/celestial.js';
 import config from './config';
 import './App.css';
 
 function App() {
   const d3Ref = useRef()
+  const celestial = Celestial()
+  const dateObj = new Date().getUTCDate();
+
+  console.log(celestial.getPlanet('jup', dateObj))
   config.width = config.width !== 0 ? config.width : window.screen.width - 15 ;
-  const celestial = new Celestial();
   useEffect(() => {
     try {
       d3.select(d3Ref.current)
@@ -18,7 +21,8 @@ function App() {
     } catch(err) {
       console.error(err);
     }
-  })
+
+  }, [d3Ref, celestial])
 
   return ( 
     <div className='celestial-container' ref={d3Ref} >
